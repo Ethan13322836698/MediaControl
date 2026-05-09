@@ -25,7 +25,6 @@
             android:padding="16dp"
             android:minHeight="320dp">
 
-            <!-- Original: side by side in landscape -->
             <LinearLayout
                 android:id="@+id/original_container"
                 android:layout_width="match_parent"
@@ -36,14 +35,17 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_pause"
                     android:layout_width="0dp"
-                    android:layout_height="110dp"
+                    android:layout_height="120dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginEnd="14dp"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
+                    android:insetLeft="0dp"
+                    android:insetRight="0dp"
                     app:icon="@drawable/ic_pause"
-                    app:iconSize="48dp"
+                    app:iconSize="52dp"
                     app:iconGravity="textStart"
+                    app:iconPadding="0dp"
                     app:iconTint="?attr/colorOnSecondaryContainer"
                     app:backgroundTint="?attr/colorSecondaryContainer"
                     app:cornerRadius="@dimen/btn_corner_radius"
@@ -53,14 +55,17 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_play"
                     android:layout_width="0dp"
-                    android:layout_height="110dp"
+                    android:layout_height="120dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="14dp"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
+                    android:insetLeft="0dp"
+                    android:insetRight="0dp"
                     app:icon="@drawable/ic_play"
-                    app:iconSize="48dp"
+                    app:iconSize="52dp"
                     app:iconGravity="textStart"
+                    app:iconPadding="0dp"
                     app:iconTint="?attr/colorOnPrimaryContainer"
                     app:backgroundTint="?attr/colorPrimaryContainer"
                     app:cornerRadius="@dimen/btn_corner_radius"
@@ -69,17 +74,19 @@
 
             </LinearLayout>
 
-            <!-- Compact -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_play_pause"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="130dp"
                 android:visibility="gone"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
                 app:icon="@drawable/ic_play"
-                app:iconSize="64dp"
+                app:iconSize="72dp"
                 app:iconGravity="textStart"
+                app:iconPadding="0dp"
                 app:iconTint="?attr/colorOnPrimaryContainer"
                 app:backgroundTint="?attr/colorPrimaryContainer"
                 app:cornerRadius="@dimen/btn_corner_radius"
@@ -90,16 +97,17 @@
 
     </ScrollView>
 
-    <com.google.android.material.button.MaterialButton
+    <ImageButton
         android:id="@+id/btn_settings"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_gravity="top|end"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:icon="@drawable/ic_settings"
-        app:iconSize="22dp"
-        app:iconTint="?attr/colorOnSurfaceVariant" />
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/bg_settings_btn"
+        android:src="@drawable/ic_settings"
+        android:tint="?attr/colorOnSurfaceVariant"
+        android:contentDescription="设置"
+        android:padding="8dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

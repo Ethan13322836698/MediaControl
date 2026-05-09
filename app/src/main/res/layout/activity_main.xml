@@ -22,10 +22,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="24dp"
+            android:padding="32dp"
             android:minHeight="500dp">
 
-            <!-- ── ORIGINAL MODE wrapper (horizontal for Apple, vertical for MD) ── -->
+            <!-- ── ORIGINAL MODE wrapper ── -->
             <LinearLayout
                 android:id="@+id/original_container"
                 android:layout_width="match_parent"
@@ -33,33 +33,37 @@
                 android:orientation="vertical"
                 android:gravity="center">
 
-                <!-- Pause -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_pause"
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="20dp"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
+                    android:insetLeft="0dp"
+                    android:insetRight="0dp"
                     app:icon="@drawable/ic_pause"
-                    app:iconSize="56dp"
+                    app:iconSize="64dp"
                     app:iconGravity="textStart"
+                    app:iconPadding="0dp"
                     app:iconTint="?attr/colorOnSecondaryContainer"
                     app:backgroundTint="?attr/colorSecondaryContainer"
                     app:cornerRadius="@dimen/btn_corner_radius"
                     app:strokeWidth="0dp"
                     tools:ignore="ButtonStyle" />
 
-                <!-- Play -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_play"
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
+                    android:layout_height="150dp"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
+                    android:insetLeft="0dp"
+                    android:insetRight="0dp"
                     app:icon="@drawable/ic_play"
-                    app:iconSize="56dp"
+                    app:iconSize="64dp"
                     app:iconGravity="textStart"
+                    app:iconPadding="0dp"
                     app:iconTint="?attr/colorOnPrimaryContainer"
                     app:backgroundTint="?attr/colorPrimaryContainer"
                     app:cornerRadius="@dimen/btn_corner_radius"
@@ -68,17 +72,20 @@
 
             </LinearLayout>
 
-            <!-- ── COMPACT MODE: single toggle (icon only) ── -->
+            <!-- ── COMPACT MODE ── -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_play_pause"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="220dp"
                 android:visibility="gone"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
                 app:icon="@drawable/ic_play"
-                app:iconSize="80dp"
+                app:iconSize="88dp"
                 app:iconGravity="textStart"
+                app:iconPadding="0dp"
                 app:iconTint="?attr/colorOnPrimaryContainer"
                 app:backgroundTint="?attr/colorPrimaryContainer"
                 app:cornerRadius="@dimen/btn_corner_radius"
@@ -89,17 +96,18 @@
 
     </ScrollView>
 
-    <!-- Settings icon — LAST child so it renders above ScrollView -->
-    <com.google.android.material.button.MaterialButton
+    <!-- ImageButton: ripple matches bounds exactly -->
+    <ImageButton
         android:id="@+id/btn_settings"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="top|end"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="12dp"
-        app:icon="@drawable/ic_settings"
-        app:iconSize="24dp"
-        app:iconTint="?attr/colorOnSurfaceVariant" />
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_settings_btn"
+        android:src="@drawable/ic_settings"
+        android:tint="?attr/colorOnSurfaceVariant"
+        android:contentDescription="设置"
+        android:padding="10dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

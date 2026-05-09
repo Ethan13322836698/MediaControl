@@ -3,6 +3,7 @@ package com.mediacontrol.app
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.media.AudioManager
 import android.os.Bundle
 import android.view.KeyEvent
@@ -27,11 +28,11 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val PREF_NAME = "prefs"
-        const val KEY_STYLE  = "style"   // "material" | "apple"
-        const val KEY_MODE   = "mode"    // "original" | "compact"
-        const val KEY_SIZE   = "size"    // "normal" | "large"
-        const val KEY_NIGHT  = "night"   // "system" | "light" | "dark"
-        const val KEY_COLOR  = "color"   // "skyblue"|"purple"|"blue"|"green"|"orange"|"red"|"teal"
+        const val KEY_STYLE  = "style"
+        const val KEY_MODE   = "mode"
+        const val KEY_SIZE   = "size"
+        const val KEY_NIGHT  = "night"
+        const val KEY_COLOR  = "color"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,17 +40,11 @@ class MainActivity : AppCompatActivity() {
         applyNightMode()
         applyTheme()
         super.onCreate(savedInstanceState)
-
-        // Must be before setContentView for proper inset handling
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-
         isLargeMode = prefs.getString(KEY_SIZE, "normal") == "large"
-
         applyLayout()
         setupButtons()
     }
@@ -70,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             color == "orange"   -> R.style.Theme_MediaControl_Orange
             color == "red"      -> R.style.Theme_MediaControl_Red
             color == "teal"     -> R.style.Theme_MediaControl_Teal
-            else                -> R.style.Theme_MediaControl  // skyblue default
+            else                -> R.style.Theme_MediaControl
         })
     }
 
@@ -89,7 +84,6 @@ class MainActivity : AppCompatActivity() {
         val isApple = prefs.getString(KEY_STYLE, "material") == "apple"
 
         if (mode == "compact") {
-            // Compact: only the toggle button + settings icon, nothing else
             binding.originalContainer.visibility = View.GONE
             binding.btnPlayPause.visibility = View.VISIBLE
         } else {
@@ -97,64 +91,161 @@ class MainActivity : AppCompatActivity() {
             binding.btnPlayPause.visibility = View.GONE
         }
 
-        // Apple = circle buttons arranged horizontally
-        // Material = full-width pill buttons stacked
         if (isApple) styleApple(mode)
         else         styleMaterial(mode)
 
         if (isLargeMode) {
             hideSystemBars()
-            enlargeButtons(mode)
+            enlargeButtons(mode, isApple)
         }
     }
 
+    // ── Apple: real iOS feel ──────────────────────────────────────────────────
+    // iOS Control Center style: dark/light surface background,
+    // large white/dark circles floating on it, icon centered inside circle
     private fun styleApple(mode: String) {
         val dp = resources.displayMetrics.density
-        val circleSizePx = (160 * dp).toInt()
-        val gapPx = (24 * dp).toInt()
+        val isDark = isDarkMode()
 
-        // Side-by-side circles for original
+        // Background: iOS system background
+        val bgColor  = if (isDark) Color.parseColor("#000000") else Color.parseColor("#F2F2F7")
+        val cardColor = if (isDark) Color.parseColor("#1C1C1E") else Color.parseColor("#FFFFFF")
+        val pauseIconColor = if (isDark) Color.parseColor("#EBEBF5") else Color.parseColor("#3C3C43")
+        val playIconColor  = Color.parseColor("#007AFF")
+
+        binding.root.setBackgroundColor(bgColor)
+        binding.buttonContainer.setBackgroundColor(bgColor)
+
+        // Circle size
+        val circlePx = (180 * dp).toInt()
+        val gap      = (28 * dp).toInt()
+
+        // Original: two circles side-by-side, horizontally centered
         binding.originalContainer.orientation = LinearLayout.HORIZONTAL
         binding.originalContainer.gravity = android.view.Gravity.CENTER
 
-        listOf(binding.btnPause, binding.btnPlay).forEach { btn ->
-            val lp = LinearLayout.LayoutParams(circleSizePx, circleSizePx)
-            lp.setMargins(gapPx / 2, 0, gapPx / 2, 0)
-            btn.layoutParams = lp
+        // Pause: gray circle (iOS secondary)
+        binding.btnPause.apply {
+            val lp = LinearLayout.LayoutParams(circlePx, circlePx)
+            lp.setMargins(0, 0, gap / 2, 0)
+            layoutParams = lp
+            setBackgroundColor(Color.TRANSPARENT)
+            backgroundTintList = android.content.res.ColorStateList.valueOf(cardColor)
+            iconTint = android.content.res.ColorStateList.valueOf(pauseIconColor)
+            iconSize = (circlePx * 0.42).toInt()
+            elevation = 8 * dp
+            clipToOutline = true
         }
 
-        // Compact circle
-        val bigCircle = (200 * dp).toInt()
-        val lp = LinearLayout.LayoutParams(bigCircle, bigCircle)
-        lp.gravity = android.view.Gravity.CENTER_HORIZONTAL
-        binding.btnPlayPause.layoutParams = lp
+        // Play: blue circle (iOS primary)
+        binding.btnPlay.apply {
+            val lp = LinearLayout.LayoutParams(circlePx, circlePx)
+            lp.setMargins(gap / 2, 0, 0, 0)
+            layoutParams = lp
+            backgroundTintList = android.content.res.ColorStateList.valueOf(
+                Color.parseColor("#007AFF")
+            )
+            iconTint = android.content.res.ColorStateList.valueOf(Color.WHITE)
+            iconSize = (circlePx * 0.42).toInt()
+            elevation = 8 * dp
+            clipToOutline = true
+        }
+
+        // Compact: single large circle
+        val bigPx = (220 * dp).toInt()
+        binding.btnPlayPause.apply {
+            val lp = LinearLayout.LayoutParams(bigPx, bigPx)
+            lp.gravity = android.view.Gravity.CENTER_HORIZONTAL
+            layoutParams = lp
+            backgroundTintList = android.content.res.ColorStateList.valueOf(
+                Color.parseColor("#007AFF")
+            )
+            iconTint = android.content.res.ColorStateList.valueOf(Color.WHITE)
+            iconSize = (bigPx * 0.42).toInt()
+            elevation = 8 * dp
+            clipToOutline = true
+        }
     }
 
+    // ── Material: full-width pills ────────────────────────────────────────────
     private fun styleMaterial(mode: String) {
         val dp = resources.displayMetrics.density
-        val btnHeightPx = (140 * dp).toInt()
-        val gapPx = (16 * dp).toInt()
 
         binding.originalContainer.orientation = LinearLayout.VERTICAL
         binding.originalContainer.gravity = android.view.Gravity.CENTER
 
-        listOf(binding.btnPause to binding.btnPlay).forEach { (pause, play) ->
-            val lpPause = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, btnHeightPx
-            )
-            lpPause.bottomMargin = gapPx
-            pause.layoutParams = lpPause
+        val btnH  = (150 * dp).toInt()
+        val gap   = (20 * dp).toInt()
 
-            val lpPlay = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, btnHeightPx
-            )
-            play.layoutParams = lpPlay
+        binding.btnPause.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, btnH
+        ).apply { bottomMargin = gap }
+
+        binding.btnPlay.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, btnH
+        )
+
+        binding.btnPlayPause.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, (220 * dp).toInt()
+        )
+    }
+
+    // ── Full-screen enlargement ───────────────────────────────────────────────
+    private fun enlargeButtons(mode: String, isApple: Boolean) {
+        val dp = resources.displayMetrics.density
+
+        // Make scroll + container fill screen
+        binding.scrollView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+        binding.scrollView.isFillViewport = true
+        binding.buttonContainer.apply {
+            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            requestLayout()
         }
 
-        val lpCompact = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, (200 * dp).toInt()
-        )
-        binding.btnPlayPause.layoutParams = lpCompact
+        if (isApple) {
+            val circlePx = (240 * dp).toInt()
+            val gap      = (32 * dp).toInt()
+
+            if (mode == "compact") {
+                val bigPx = (300 * dp).toInt()
+                binding.btnPlayPause.layoutParams = LinearLayout.LayoutParams(bigPx, bigPx).apply {
+                    gravity = android.view.Gravity.CENTER_HORIZONTAL
+                }
+                binding.btnPlayPause.iconSize = (bigPx * 0.42).toInt()
+            } else {
+                // Make originalContainer fill available height
+                binding.originalContainer.layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
+                )
+                listOf(binding.btnPause to (gap / 2 to 0),
+                       binding.btnPlay  to (0 to gap / 2)).forEach { (btn, margins) ->
+                    btn.layoutParams = LinearLayout.LayoutParams(circlePx, circlePx).apply {
+                        setMargins(margins.second, 0, margins.first, 0)
+                        gravity = android.view.Gravity.CENTER_VERTICAL
+                    }
+                    btn.iconSize = (circlePx * 0.42).toInt()
+                }
+            }
+        } else {
+            val m = (20 * dp).toInt()
+
+            if (mode == "compact") {
+                binding.btnPlayPause.layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
+                ).apply { setMargins(m, m, m, m) }
+            } else {
+                // originalContainer fills screen, each button = 50%
+                binding.originalContainer.layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
+                )
+                binding.btnPause.layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
+                ).apply { setMargins(m, m, m, m / 2) }
+                binding.btnPlay.layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
+                ).apply { setMargins(m, m / 2, m, m) }
+            }
+        }
     }
 
     private fun hideSystemBars() {
@@ -165,45 +256,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun enlargeButtons(mode: String) {
-        val dp = resources.displayMetrics.density
-        val isApple = prefs.getString(KEY_STYLE, "material") == "apple"
-
-        binding.scrollView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-        binding.scrollView.isFillViewport = true
-        binding.buttonContainer.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-        binding.buttonContainer.requestLayout()
-
-        if (isApple) {
-            // Large Apple: bigger circles
-            val circlePx = (220 * dp).toInt()
-            val gap = (32 * dp).toInt()
-            listOf(binding.btnPause, binding.btnPlay).forEach { btn ->
-                val lp = LinearLayout.LayoutParams(circlePx, circlePx)
-                lp.setMargins(gap / 2, 0, gap / 2, 0)
-                btn.layoutParams = lp
-            }
-            val bigPx = (280 * dp).toInt()
-            val lp = LinearLayout.LayoutParams(bigPx, bigPx)
-            lp.gravity = android.view.Gravity.CENTER_HORIZONTAL
-            binding.btnPlayPause.layoutParams = lp
-        } else {
-            // Large Material: half-screen buttons
-            val margin = (24 * dp).toInt()
-            val fillParam = { topM: Int, botM: Int ->
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
-                ).apply {
-                    setMargins(margin, topM, margin, botM)
-                }
-            }
-            if (mode == "compact") {
-                binding.btnPlayPause.layoutParams = fillParam(margin, margin)
-            } else {
-                binding.btnPause.layoutParams = fillParam(margin, margin / 2)
-                binding.btnPlay.layoutParams  = fillParam(margin / 2, margin)
-            }
-        }
+    private fun isDarkMode(): Boolean {
+        val nightMode = resources.configuration.uiMode and
+                android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        return nightMode == android.content.res.Configuration.UI_MODE_NIGHT_YES
     }
 
     private fun setupButtons() {
