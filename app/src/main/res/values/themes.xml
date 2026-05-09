@@ -30,53 +30,63 @@
     </style>
 
     <!-- ══ Blue ══ -->
-    <style name="Theme.MediaControl.Blue" parent="Theme.MediaControl.Purple">
+    <style name="Theme.MediaControl.Blue" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/blue_primary</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorPrimaryContainer">@color/blue_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/blue_on_primary_container</item>
         <item name="colorSecondaryContainer">@color/blue_secondary_container</item>
         <item name="colorOnSecondaryContainer">@color/blue_on_secondary_container</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <!-- ══ Green ══ -->
-    <style name="Theme.MediaControl.Green" parent="Theme.MediaControl.Purple">
+    <style name="Theme.MediaControl.Green" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/green_primary</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorPrimaryContainer">@color/green_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/green_on_primary_container</item>
         <item name="colorSecondaryContainer">@color/green_secondary_container</item>
         <item name="colorOnSecondaryContainer">@color/green_on_secondary_container</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <!-- ══ Orange ══ -->
-    <style name="Theme.MediaControl.Orange" parent="Theme.MediaControl.Purple">
+    <style name="Theme.MediaControl.Orange" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/orange_primary</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorPrimaryContainer">@color/orange_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/orange_on_primary_container</item>
         <item name="colorSecondaryContainer">@color/orange_secondary_container</item>
         <item name="colorOnSecondaryContainer">@color/orange_on_secondary_container</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <!-- ══ Red ══ -->
-    <style name="Theme.MediaControl.Red" parent="Theme.MediaControl.Purple">
+    <style name="Theme.MediaControl.Red" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/red_primary</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorPrimaryContainer">@color/red_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/red_on_primary_container</item>
         <item name="colorSecondaryContainer">@color/red_secondary_container</item>
         <item name="colorOnSecondaryContainer">@color/red_on_secondary_container</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <!-- ══ Teal ══ -->
-    <style name="Theme.MediaControl.Teal" parent="Theme.MediaControl.Purple">
+    <style name="Theme.MediaControl.Teal" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/teal_primary</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorPrimaryContainer">@color/teal_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/teal_on_primary_container</item>
         <item name="colorSecondaryContainer">@color/teal_secondary_container</item>
         <item name="colorOnSecondaryContainer">@color/teal_on_secondary_container</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <!-- ══ Apple ══ -->
@@ -93,11 +103,9 @@
         <item name="colorOnSurfaceVariant">@color/apple_on_surface_variant</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <!-- Apple: fully circular buttons via cornerRadius override -->
         <item name="materialButtonStyle">@style/Widget.MediaControl.Apple.Button</item>
     </style>
 
-    <!-- Apple button: pill/circle shape, no text insets -->
     <style name="Widget.MediaControl.Apple.Button" parent="Widget.Material3.Button">
         <item name="cornerRadius">100dp</item>
         <item name="android:paddingStart">0dp</item>

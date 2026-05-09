@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- ── Sky Blue (Material default) ── -->
-    <color name="skyblue_primary">#0277BD</color>
+    <!-- ── Soft Sky Blue (Material default) ── -->
+    <!-- Light, airy, not oversaturated -->
+    <color name="skyblue_primary">#4BA3C7</color>
     <color name="skyblue_on_primary">#FFFFFF</color>
-    <color name="skyblue_primary_container">#E1F5FE</color>
-    <color name="skyblue_on_primary_container">#003549</color>
-    <color name="skyblue_secondary_container">#B3E5FC</color>
-    <color name="skyblue_on_secondary_container">#01294D</color>
-    <color name="skyblue_surface">#FFFFFF</color>
-    <color name="skyblue_on_surface">#1A1C1E</color>
-    <color name="skyblue_surface_variant">#EFF3F9</color>
-    <color name="skyblue_on_surface_variant">#41474D</color>
+    <color name="skyblue_primary_container">#D6EEF8</color>
+    <color name="skyblue_on_primary_container">#003047</color>
+    <color name="skyblue_secondary_container">#C8E6F5</color>
+    <color name="skyblue_on_secondary_container">#002B40</color>
+    <color name="skyblue_surface">#FAFCFF</color>
+    <color name="skyblue_on_surface">#191C1E</color>
+    <color name="skyblue_surface_variant">#EBF3F8</color>
+    <color name="skyblue_on_surface_variant">#3E4B52</color>
 
     <!-- ── Purple ── -->
     <color name="purple_primary">#6750A4</color>
@@ -60,7 +61,6 @@
     <color name="apple_blue">#007AFF</color>
     <color name="apple_blue_container">#D0E8FF</color>
     <color name="apple_on_blue_container">#001B3D</color>
-    <color name="apple_gray">#8E8E93</color>
     <color name="apple_gray_container">#E5E5EA</color>
     <color name="apple_on_gray_container">#1C1C1E</color>
     <color name="apple_surface">#F2F2F7</color>

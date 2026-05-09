@@ -96,7 +96,8 @@ class MainActivity : AppCompatActivity() {
 
         if (isLargeMode) {
             hideSystemBars()
-            enlargeButtons(mode, isApple)
+            // post() defers until after first layout pass — sizes are real then
+            binding.root.post { enlargeButtons(mode, isApple) }
         }
     }
 
@@ -191,39 +192,60 @@ class MainActivity : AppCompatActivity() {
     }
 
     // ── Full-screen enlargement ───────────────────────────────────────────────
+    // Called via post{} so layout is already measured — real heights available
     private fun enlargeButtons(mode: String, isApple: Boolean) {
         val dp = resources.displayMetrics.density
 
-        // Make scroll + container fill screen
-        binding.scrollView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-        binding.scrollView.isFillViewport = true
+        // ScrollView + container fill entire screen
+        binding.scrollView.apply {
+            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            isFillViewport = true
+            requestLayout()
+        }
         binding.buttonContainer.apply {
             layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            setPadding(0, 0, 0, 0)   // remove 32dp padding so content truly fills
+            gravity = android.view.Gravity.CENTER
             requestLayout()
         }
 
         if (isApple) {
-            val circlePx = (240 * dp).toInt()
-            val gap      = (32 * dp).toInt()
+            val screenH  = resources.displayMetrics.heightPixels
+            val screenW  = resources.displayMetrics.widthPixels
 
             if (mode == "compact") {
-                val bigPx = (300 * dp).toInt()
-                binding.btnPlayPause.layoutParams = LinearLayout.LayoutParams(bigPx, bigPx).apply {
-                    gravity = android.view.Gravity.CENTER_HORIZONTAL
-                }
-                binding.btnPlayPause.iconSize = (bigPx * 0.42).toInt()
-            } else {
-                // Make originalContainer fill available height
-                binding.originalContainer.layoutParams = LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
-                )
-                listOf(binding.btnPause to (gap / 2 to 0),
-                       binding.btnPlay  to (0 to gap / 2)).forEach { (btn, margins) ->
-                    btn.layoutParams = LinearLayout.LayoutParams(circlePx, circlePx).apply {
-                        setMargins(margins.second, 0, margins.first, 0)
-                        gravity = android.view.Gravity.CENTER_VERTICAL
+                // Single circle: 70% of smaller screen dimension
+                val bigPx = (minOf(screenH, screenW) * 0.70f).toInt()
+                binding.btnPlayPause.apply {
+                    layoutParams = LinearLayout.LayoutParams(bigPx, bigPx).apply {
+                        gravity = android.view.Gravity.CENTER_HORIZONTAL
                     }
-                    btn.iconSize = (circlePx * 0.42).toInt()
+                    iconSize = (bigPx * 0.42).toInt()
+                    requestLayout()
+                }
+            } else {
+                // Two circles: each ~45% of smaller dimension, side-by-side
+                val circlePx = (minOf(screenH, screenW) * 0.42f).toInt()
+                val gap      = (minOf(screenH, screenW) * 0.06f).toInt()
+                binding.originalContainer.apply {
+                    layoutParams = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                    gravity = android.view.Gravity.CENTER
+                    requestLayout()
+                }
+                binding.btnPause.apply {
+                    layoutParams = LinearLayout.LayoutParams(circlePx, circlePx).apply {
+                        setMargins(0, 0, gap / 2, 0)
+                    }
+                    iconSize = (circlePx * 0.42).toInt()
+                }
+                binding.btnPlay.apply {
+                    layoutParams = LinearLayout.LayoutParams(circlePx, circlePx).apply {
+                        setMargins(gap / 2, 0, 0, 0)
+                    }
+                    iconSize = (circlePx * 0.42).toInt()
                 }
             }
         } else {
