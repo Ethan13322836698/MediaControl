@@ -4,9 +4,34 @@
     <string name="subtitle">控制系统媒体播放</string>
     <string name="play">播放</string>
     <string name="pause">暂停</string>
-    <string name="volume">音量</string>
-    <string name="vol_up">音量+</string>
-    <string name="vol_down">音量-</string>
-    <string name="playing">▶ 已发送播放指令</string>
-    <string name="paused">⏸ 已发送暂停指令</string>
+    <string name="play_pause">播放 / 暂停</string>
+
+    <string name="settings_title">设置</string>
+    <string name="label_style">风格</string>
+    <string name="label_mode">按钮模式</string>
+    <string name="label_size">显示大小</string>
+    <string name="label_night">外观</string>
+    <string name="label_color">主题色（Material）</string>
+
+    <string name="style_material">Material</string>
+    <string name="style_apple">Apple</string>
+
+    <string name="mode_original">原版（分离）</string>
+    <string name="mode_compact">简洁（合并）</string>
+
+    <string name="size_normal">标准</string>
+    <string name="size_large">超大（全屏）</string>
+
+    <string name="night_system">跟随系统</string>
+    <string name="night_light">亮色</string>
+    <string name="night_dark">暗色</string>
+
+    <string name="color_purple">紫色</string>
+    <string name="color_blue">蓝色</string>
+    <string name="color_green">绿色</string>
+    <string name="color_orange">橙色</string>
+    <string name="color_red">红色</string>
+    <string name="color_teal">青色</string>
+
+    <string name="apply">应用并重启</string>
 </resources>

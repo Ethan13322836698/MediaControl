@@ -1,130 +1,162 @@
 package com.mediacontrol.app
 
 import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.media.AudioManager
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.SeekBar
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.mediacontrol.app.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var audioManager: AudioManager
+    private lateinit var prefs: SharedPreferences
+    private var isPlayingVisual = false
+
+    companion object {
+        const val PREF_NAME  = "prefs"
+        const val KEY_STYLE  = "style"   // "material" | "apple"
+        const val KEY_MODE   = "mode"    // "original" | "compact"
+        const val KEY_SIZE   = "size"    // "normal" | "large"
+        const val KEY_NIGHT  = "night"   // "system" | "light" | "dark"
+        const val KEY_COLOR  = "color"   // "purple"|"blue"|"green"|"orange"|"red"|"teal"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        prefs = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        applyNightMode()
+        applyTheme()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-
-        setupVolumeSeekBar()
+        applyLayout()
         setupButtons()
     }
 
-    private fun setupVolumeSeekBar() {
-        val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-        val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
-
-        binding.seekbarVolume.max = maxVolume
-        binding.seekbarVolume.progress = currentVolume
-
-        binding.seekbarVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                if (fromUser) {
-                    audioManager.setStreamVolume(
-                        AudioManager.STREAM_MUSIC,
-                        progress,
-                        0
-                    )
-                    updateVolumeIcon(progress, maxVolume)
-                }
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+    private fun applyTheme() {
+        val style = prefs.getString(KEY_STYLE, "material") ?: "material"
+        val color = prefs.getString(KEY_COLOR, "purple") ?: "purple"
+        setTheme(when {
+            style == "apple"   -> R.style.Theme_MediaControl_Apple
+            color == "blue"    -> R.style.Theme_MediaControl_Blue
+            color == "green"   -> R.style.Theme_MediaControl_Green
+            color == "orange"  -> R.style.Theme_MediaControl_Orange
+            color == "red"     -> R.style.Theme_MediaControl_Red
+            color == "teal"    -> R.style.Theme_MediaControl_Teal
+            else               -> R.style.Theme_MediaControl
         })
-
-        updateVolumeIcon(currentVolume, maxVolume)
     }
 
-    private fun updateVolumeIcon(volume: Int, maxVolume: Int) {
-        val iconRes = when {
-            volume == 0 -> R.drawable.ic_volume_off
-            volume < maxVolume / 2 -> R.drawable.ic_volume_down
-            else -> R.drawable.ic_volume_up
+    private fun applyNightMode() {
+        AppCompatDelegate.setDefaultNightMode(when (
+            prefs.getString(KEY_NIGHT, "system")
+        ) {
+            "light" -> AppCompatDelegate.MODE_NIGHT_NO
+            "dark"  -> AppCompatDelegate.MODE_NIGHT_YES
+            else    -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        })
+    }
+
+    private fun applyLayout() {
+        val mode = prefs.getString(KEY_MODE, "original") ?: "original"
+        val size = prefs.getString(KEY_SIZE, "normal") ?: "normal"
+
+        if (mode == "compact") {
+            binding.btnPlay.visibility = View.GONE
+            binding.btnPause.visibility = View.GONE
+            binding.btnPlayPause.visibility = View.VISIBLE
+        } else {
+            binding.btnPlay.visibility = View.VISIBLE
+            binding.btnPause.visibility = View.VISIBLE
+            binding.btnPlayPause.visibility = View.GONE
         }
-        binding.btnVolume.setIconResource(iconRes)
-        binding.tvVolumeLevel.text = "${(volume * 100f / maxVolume).toInt()}%"
+
+        if (size == "large") {
+            enterFullscreen()
+            enlargeButtons(mode)
+        }
+    }
+
+    private fun enterFullscreen() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            hide(WindowInsetsCompat.Type.systemBars())
+            systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+    }
+
+    private fun enlargeButtons(mode: String) {
+        // Remove scroll, make container fill screen
+        binding.scrollView.apply {
+            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            isFillViewport = true
+        }
+        binding.buttonContainer.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+
+        val fillParam = { margin: Int ->
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
+            ).apply {
+                setMargins(margin, margin / 2, margin, margin / 2)
+            }
+        }
+        val m = resources.getDimensionPixelSize(R.dimen.large_btn_margin)
+
+        if (mode == "compact") {
+            binding.btnPlayPause.layoutParams = fillParam(m)
+        } else {
+            binding.btnPlay.layoutParams  = fillParam(m)
+            binding.btnPause.layoutParams = fillParam(m)
+        }
     }
 
     private fun setupButtons() {
-        binding.btnVolume.setOnClickListener {
-            animateButton(it)
-            audioManager.adjustStreamVolume(
-                AudioManager.STREAM_MUSIC,
-                AudioManager.ADJUST_SAME,
-                AudioManager.FLAG_SHOW_UI
-            )
-        }
-
         binding.btnPlay.setOnClickListener {
             animateButton(it)
             dispatchMediaKey(KeyEvent.KEYCODE_MEDIA_PLAY)
-            Snackbar.make(binding.root, getString(R.string.playing), Snackbar.LENGTH_SHORT).show()
         }
-
         binding.btnPause.setOnClickListener {
             animateButton(it)
             dispatchMediaKey(KeyEvent.KEYCODE_MEDIA_PAUSE)
-            Snackbar.make(binding.root, getString(R.string.paused), Snackbar.LENGTH_SHORT).show()
         }
-
-        binding.btnVolumeDown.setOnClickListener {
+        binding.btnPlayPause.setOnClickListener {
             animateButton(it)
-            audioManager.adjustStreamVolume(
-                AudioManager.STREAM_MUSIC,
-                AudioManager.ADJUST_LOWER,
-                AudioManager.FLAG_SHOW_UI
+            isPlayingVisual = !isPlayingVisual
+            dispatchMediaKey(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE)
+            binding.btnPlayPause.setIconResource(
+                if (isPlayingVisual) R.drawable.ic_pause else R.drawable.ic_play
             )
-            refreshVolumeSeekBar()
         }
-
-        binding.btnVolumeUp.setOnClickListener {
-            animateButton(it)
-            audioManager.adjustStreamVolume(
-                AudioManager.STREAM_MUSIC,
-                AudioManager.ADJUST_RAISE,
-                AudioManager.FLAG_SHOW_UI
-            )
-            refreshVolumeSeekBar()
+        binding.btnSettings.setOnClickListener {
+            SettingsBottomSheet().show(supportFragmentManager, "settings")
         }
     }
 
     private fun dispatchMediaKey(keyCode: Int) {
-        val downEvent = KeyEvent(KeyEvent.ACTION_DOWN, keyCode)
-        val upEvent = KeyEvent(KeyEvent.ACTION_UP, keyCode)
-        audioManager.dispatchMediaKeyEvent(downEvent)
-        audioManager.dispatchMediaKeyEvent(upEvent)
+        audioManager.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
+        audioManager.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_UP, keyCode))
     }
 
-    private fun refreshVolumeSeekBar() {
-        val current = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
-        val max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-        binding.seekbarVolume.progress = current
-        updateVolumeIcon(current, max)
+    private fun animateButton(view: View) {
+        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_scale))
     }
 
-    private fun animateButton(view: android.view.View) {
-        val anim = AnimationUtils.loadAnimation(this, R.anim.button_scale)
-        view.startAnimation(anim)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        refreshVolumeSeekBar()
+    fun restart() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 }
