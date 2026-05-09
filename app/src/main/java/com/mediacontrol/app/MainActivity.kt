@@ -43,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // Keep screen on while app is open
+        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         isLargeMode = prefs.getString(KEY_SIZE, "normal") == "large"
         applyLayout()
@@ -134,6 +136,7 @@ class MainActivity : AppCompatActivity() {
             backgroundTintList = android.content.res.ColorStateList.valueOf(cardColor)
             iconTint = android.content.res.ColorStateList.valueOf(pauseIconColor)
             iconSize = (circlePx * 0.42).toInt()
+            iconGravity = com.google.android.material.button.MaterialButton.ICON_GRAVITY_TEXT_START
             elevation = 8 * dp
             clipToOutline = true
         }
@@ -143,11 +146,10 @@ class MainActivity : AppCompatActivity() {
             val lp = LinearLayout.LayoutParams(circlePx, circlePx)
             lp.setMargins(gap / 2, 0, 0, 0)
             layoutParams = lp
-            backgroundTintList = android.content.res.ColorStateList.valueOf(
-                Color.parseColor("#007AFF")
-            )
+            backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#007AFF"))
             iconTint = android.content.res.ColorStateList.valueOf(Color.WHITE)
             iconSize = (circlePx * 0.42).toInt()
+            iconGravity = com.google.android.material.button.MaterialButton.ICON_GRAVITY_TEXT_START
             elevation = 8 * dp
             clipToOutline = true
         }
@@ -158,11 +160,10 @@ class MainActivity : AppCompatActivity() {
             val lp = LinearLayout.LayoutParams(bigPx, bigPx)
             lp.gravity = android.view.Gravity.CENTER_HORIZONTAL
             layoutParams = lp
-            backgroundTintList = android.content.res.ColorStateList.valueOf(
-                Color.parseColor("#007AFF")
-            )
+            backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#007AFF"))
             iconTint = android.content.res.ColorStateList.valueOf(Color.WHITE)
             iconSize = (bigPx * 0.42).toInt()
+            iconGravity = com.google.android.material.button.MaterialButton.ICON_GRAVITY_TEXT_START
             elevation = 8 * dp
             clipToOutline = true
         }
