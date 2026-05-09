@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textAppearance="?attr/textAppearanceHeadlineMedium"
+            android:textColor="?attr/colorOnSurface"
+            android:layout_marginBottom="8dp"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/subtitle"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="48dp"
+            android:gravity="center" />
+
+        <!-- Play / Pause Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="40dp">
+
+            <!-- Pause Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_pause"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="12dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/ic_pause"
+                app:iconSize="48dp"
+                app:iconGravity="top"
+                app:iconTint="?attr/colorOnSecondaryContainer"
+                android:text="@string/pause"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="?attr/colorOnSecondaryContainer"
+                app:backgroundTint="?attr/colorSecondaryContainer"
+                app:cornerRadius="24dp"
+                android:elevation="4dp"
+                app:strokeWidth="0dp" />
+
+            <!-- Play Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_play"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/ic_play"
+                app:iconSize="48dp"
+                app:iconGravity="top"
+                app:iconTint="?attr/colorOnPrimaryContainer"
+                android:text="@string/play"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                app:backgroundTint="?attr/colorPrimaryContainer"
+                app:cornerRadius="24dp"
+                android:elevation="4dp"
+                app:strokeWidth="0dp" />
+
+        </LinearLayout>
+
+        <!-- Volume Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="?attr/colorSurfaceVariant"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <!-- Volume label row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_volume"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:icon="@drawable/ic_volume_up"
+                        app:iconSize="28dp"
+                        app:iconTint="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/volume"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:paddingStart="8dp" />
+
+                    <TextView
+                        android:id="@+id/tv_volume_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="50%"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="?attr/colorPrimary"
+                        tools:text="75%" />
+
+                </LinearLayout>
+
+                <!-- SeekBar -->
+                <SeekBar
+                    android:id="@+id/seekbar_volume"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:minHeight="48dp"
+                    android:thumbTint="?attr/colorPrimary"
+                    android:progressTint="?attr/colorPrimary" />
+
+                <!-- Volume Up / Down buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_volume_down"
+                        android:layout_width="0dp"
+                        android:layout_height="64dp"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:icon="@drawable/ic_volume_down"
+                        app:iconSize="28dp"
+                        app:iconGravity="textStart"
+                        android:text="@string/vol_down"
+                        app:cornerRadius="16dp"
+                        style="@style/Widget.Material3.Button.TonalButton" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_volume_up"
+                        android:layout_width="0dp"
+                        android:layout_height="64dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:icon="@drawable/ic_volume_up"
+                        app:iconSize="28dp"
+                        app:iconGravity="textStart"
+                        android:text="@string/vol_up"
+                        app:cornerRadius="16dp"
+                        style="@style/Widget.Material3.Button.TonalButton" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
