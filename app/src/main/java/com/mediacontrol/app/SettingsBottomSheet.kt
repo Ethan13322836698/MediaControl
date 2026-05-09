@@ -24,14 +24,9 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
         val prefs = requireContext()
             .getSharedPreferences(MainActivity.PREF_NAME, Context.MODE_PRIVATE)
 
-        val style = prefs.getString(MainActivity.KEY_STYLE, "material")
         val mode  = prefs.getString(MainActivity.KEY_MODE,  "original")
         val size  = prefs.getString(MainActivity.KEY_SIZE,  "normal")
         val night = prefs.getString(MainActivity.KEY_NIGHT, "system")
-        val color = prefs.getString(MainActivity.KEY_COLOR, "skyblue")
-
-        if (style == "apple") binding.chipStyleApple.isChecked    = true
-        else                  binding.chipStyleMaterial.isChecked = true
 
         if (mode == "compact") binding.chipModeCompact.isChecked  = true
         else                   binding.chipModeOriginal.isChecked = true
@@ -45,25 +40,8 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
             else    -> binding.chipNightSystem.isChecked = true
         }
 
-        when (color) {
-            "purple" -> binding.chipColorPurple.isChecked = true
-            "blue"   -> binding.chipColorBlue.isChecked   = true
-            "green"  -> binding.chipColorGreen.isChecked  = true
-            "orange" -> binding.chipColorOrange.isChecked = true
-            "red"    -> binding.chipColorRed.isChecked    = true
-            "teal"   -> binding.chipColorTeal.isChecked   = true
-            else     -> binding.chipColorSkyblue.isChecked = true
-        }
-
-        updateColorVisibility(style == "material")
-        binding.chipGroupStyle.setOnCheckedStateChangeListener { _, _ ->
-            updateColorVisibility(binding.chipStyleMaterial.isChecked)
-        }
-
         binding.btnApply.setOnClickListener {
             prefs.edit().apply {
-                putString(MainActivity.KEY_STYLE,
-                    if (binding.chipStyleApple.isChecked) "apple" else "material")
                 putString(MainActivity.KEY_MODE,
                     if (binding.chipModeCompact.isChecked) "compact" else "original")
                 putString(MainActivity.KEY_SIZE,
@@ -73,26 +51,11 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
                     binding.chipNightDark.isChecked  -> "dark"
                     else                             -> "system"
                 })
-                putString(MainActivity.KEY_COLOR, when {
-                    binding.chipColorPurple.isChecked -> "purple"
-                    binding.chipColorBlue.isChecked   -> "blue"
-                    binding.chipColorGreen.isChecked  -> "green"
-                    binding.chipColorOrange.isChecked -> "orange"
-                    binding.chipColorRed.isChecked    -> "red"
-                    binding.chipColorTeal.isChecked   -> "teal"
-                    else                              -> "skyblue"
-                })
                 apply()
             }
             dismiss()
             (activity as? MainActivity)?.restart()
         }
-    }
-
-    private fun updateColorVisibility(show: Boolean) {
-        val vis = if (show) View.VISIBLE else View.GONE
-        binding.labelColor.visibility     = vis
-        binding.chipGroupColor.visibility = vis
     }
 
     override fun onDestroyView() {
