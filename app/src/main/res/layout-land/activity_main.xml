@@ -8,18 +8,6 @@
     android:background="?attr/colorSurface"
     tools:context=".MainActivity">
 
-    <!-- Settings FAB -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_settings"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_gravity="top|end"
-        android:layout_margin="8dp"
-        app:icon="@drawable/ic_settings"
-        app:iconSize="24dp"
-        app:iconTint="?attr/colorOnSurfaceVariant" />
-
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -117,5 +105,16 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_settings"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="8dp"
+        app:icon="@drawable/ic_settings"
+        app:iconSize="24dp"
+        app:iconTint="?attr/colorOnSurfaceVariant" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
