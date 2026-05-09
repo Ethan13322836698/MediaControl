@@ -26,6 +26,7 @@
     <string name="night_light">亮色</string>
     <string name="night_dark">暗色</string>
 
+    <string name="color_skyblue">天蓝（默认）</string>
     <string name="color_purple">紫色</string>
     <string name="color_blue">蓝色</string>
     <string name="color_green">绿色</string>

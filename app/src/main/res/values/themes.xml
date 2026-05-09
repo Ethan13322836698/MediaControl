@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- ══ Material Purple (default) ══ -->
+    <!-- ══ Sky Blue (default MD) ══ -->
     <style name="Theme.MediaControl" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/skyblue_primary</item>
+        <item name="colorOnPrimary">@color/skyblue_on_primary</item>
+        <item name="colorPrimaryContainer">@color/skyblue_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/skyblue_on_primary_container</item>
+        <item name="colorSecondaryContainer">@color/skyblue_secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/skyblue_on_secondary_container</item>
+        <item name="colorSurface">@color/skyblue_surface</item>
+        <item name="colorOnSurface">@color/skyblue_on_surface</item>
+        <item name="colorSurfaceVariant">@color/skyblue_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/skyblue_on_surface_variant</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!-- ══ Purple ══ -->
+    <style name="Theme.MediaControl.Purple" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/purple_primary</item>
         <item name="colorOnPrimary">@color/purple_on_primary</item>
         <item name="colorPrimaryContainer">@color/purple_primary_container</item>
@@ -10,11 +26,11 @@
         <item name="colorSecondaryContainer">@color/purple_secondary_container</item>
         <item name="colorOnSecondaryContainer">@color/purple_on_secondary_container</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="materialButtonStyle">@style/Widget.MediaControl.Button</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
-    <!-- ══ Material Blue ══ -->
-    <style name="Theme.MediaControl.Blue" parent="Theme.MediaControl">
+    <!-- ══ Blue ══ -->
+    <style name="Theme.MediaControl.Blue" parent="Theme.MediaControl.Purple">
         <item name="colorPrimary">@color/blue_primary</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorPrimaryContainer">@color/blue_primary_container</item>
@@ -23,8 +39,8 @@
         <item name="colorOnSecondaryContainer">@color/blue_on_secondary_container</item>
     </style>
 
-    <!-- ══ Material Green ══ -->
-    <style name="Theme.MediaControl.Green" parent="Theme.MediaControl">
+    <!-- ══ Green ══ -->
+    <style name="Theme.MediaControl.Green" parent="Theme.MediaControl.Purple">
         <item name="colorPrimary">@color/green_primary</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorPrimaryContainer">@color/green_primary_container</item>
@@ -33,8 +49,8 @@
         <item name="colorOnSecondaryContainer">@color/green_on_secondary_container</item>
     </style>
 
-    <!-- ══ Material Orange ══ -->
-    <style name="Theme.MediaControl.Orange" parent="Theme.MediaControl">
+    <!-- ══ Orange ══ -->
+    <style name="Theme.MediaControl.Orange" parent="Theme.MediaControl.Purple">
         <item name="colorPrimary">@color/orange_primary</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorPrimaryContainer">@color/orange_primary_container</item>
@@ -43,8 +59,8 @@
         <item name="colorOnSecondaryContainer">@color/orange_on_secondary_container</item>
     </style>
 
-    <!-- ══ Material Red ══ -->
-    <style name="Theme.MediaControl.Red" parent="Theme.MediaControl">
+    <!-- ══ Red ══ -->
+    <style name="Theme.MediaControl.Red" parent="Theme.MediaControl.Purple">
         <item name="colorPrimary">@color/red_primary</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorPrimaryContainer">@color/red_primary_container</item>
@@ -53,8 +69,8 @@
         <item name="colorOnSecondaryContainer">@color/red_on_secondary_container</item>
     </style>
 
-    <!-- ══ Material Teal ══ -->
-    <style name="Theme.MediaControl.Teal" parent="Theme.MediaControl">
+    <!-- ══ Teal ══ -->
+    <style name="Theme.MediaControl.Teal" parent="Theme.MediaControl.Purple">
         <item name="colorPrimary">@color/teal_primary</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorPrimaryContainer">@color/teal_primary_container</item>
@@ -63,7 +79,7 @@
         <item name="colorOnSecondaryContainer">@color/teal_on_secondary_container</item>
     </style>
 
-    <!-- ══ Apple Style ══ -->
+    <!-- ══ Apple ══ -->
     <style name="Theme.MediaControl.Apple" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/apple_blue</item>
         <item name="colorOnPrimary">#FFFFFF</item>
@@ -74,18 +90,18 @@
         <item name="colorSurface">@color/apple_surface</item>
         <item name="colorOnSurface">@color/apple_on_surface</item>
         <item name="colorSurfaceVariant">@color/apple_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/apple_on_surface_variant</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <!-- Apple: fully circular buttons via cornerRadius override -->
         <item name="materialButtonStyle">@style/Widget.MediaControl.Apple.Button</item>
     </style>
 
-    <!-- Button styles -->
-    <style name="Widget.MediaControl.Button" parent="Widget.Material3.Button">
-        <item name="cornerRadius">@dimen/btn_corner_radius</item>
-    </style>
-
+    <!-- Apple button: pill/circle shape, no text insets -->
     <style name="Widget.MediaControl.Apple.Button" parent="Widget.Material3.Button">
-        <item name="cornerRadius">28dp</item>
-        <item name="android:letterSpacing">0.02</item>
+        <item name="cornerRadius">100dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
     </style>
 
 </resources>

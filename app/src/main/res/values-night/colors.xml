@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Apple dark mode overrides -->
+    <color name="apple_surface">#1C1C1E</color>
+    <color name="apple_on_surface">#FFFFFF</color>
+    <color name="apple_surface_variant">#2C2C2E</color>
+    <color name="apple_on_surface_variant">#EBEBF5</color>
+    <color name="apple_gray_container">#3A3A3C</color>
+    <color name="apple_on_gray_container">#FFFFFF</color>
+
+    <!-- Sky blue dark mode overrides -->
+    <color name="skyblue_surface">#1A1C1E</color>
+    <color name="skyblue_on_surface">#E2E2E5</color>
+    <color name="skyblue_surface_variant">#41474D</color>
+    <color name="skyblue_on_surface_variant">#C1C7CE</color>
+    <color name="skyblue_primary_container">#004C6A</color>
+    <color name="skyblue_on_primary_container">#C4E8FF</color>
+    <color name="skyblue_secondary_container">#004C6A</color>
+    <color name="skyblue_on_secondary_container">#B3E5FC</color>
+</resources>

@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
     android:background="?attr/colorSurface"
     tools:context=".MainActivity">
 
@@ -12,7 +13,8 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:fitsSystemWindows="false">
 
         <LinearLayout
             android:id="@+id/button_container"
@@ -20,68 +22,53 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:paddingTop="80dp"
-            android:paddingBottom="32dp"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
+            android:padding="24dp"
             android:minHeight="500dp">
 
-            <!-- App title -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textAppearance="?attr/textAppearanceHeadlineMedium"
-                android:textColor="?attr/colorOnSurface"
-                android:layout_marginBottom="4dp"
-                android:gravity="center" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/subtitle"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:layout_marginBottom="48dp"
-                android:gravity="center" />
-
-            <!-- ── ORIGINAL MODE: Pause + Play ── -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_pause"
+            <!-- ── ORIGINAL MODE wrapper (horizontal for Apple, vertical for MD) ── -->
+            <LinearLayout
+                android:id="@+id/original_container"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:layout_marginBottom="16dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                app:icon="@drawable/ic_pause"
-                app:iconSize="52dp"
-                app:iconGravity="top"
-                app:iconTint="?attr/colorOnSecondaryContainer"
-                android:text="@string/pause"
-                android:textAppearance="?attr/textAppearanceTitleLarge"
-                android:textColor="?attr/colorOnSecondaryContainer"
-                app:backgroundTint="?attr/colorSecondaryContainer"
-                app:cornerRadius="@dimen/btn_corner_radius"
-                app:strokeWidth="0dp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_play"
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                app:icon="@drawable/ic_play"
-                app:iconSize="52dp"
-                app:iconGravity="top"
-                app:iconTint="?attr/colorOnPrimaryContainer"
-                android:text="@string/play"
-                android:textAppearance="?attr/textAppearanceTitleLarge"
-                android:textColor="?attr/colorOnPrimaryContainer"
-                app:backgroundTint="?attr/colorPrimaryContainer"
-                app:cornerRadius="@dimen/btn_corner_radius"
-                app:strokeWidth="0dp" />
+                <!-- Pause -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_pause"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:layout_marginBottom="16dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    app:icon="@drawable/ic_pause"
+                    app:iconSize="56dp"
+                    app:iconGravity="textStart"
+                    app:iconTint="?attr/colorOnSecondaryContainer"
+                    app:backgroundTint="?attr/colorSecondaryContainer"
+                    app:cornerRadius="@dimen/btn_corner_radius"
+                    app:strokeWidth="0dp"
+                    tools:ignore="ButtonStyle" />
 
-            <!-- ── COMPACT MODE: Single toggle ── -->
+                <!-- Play -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_play"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    app:icon="@drawable/ic_play"
+                    app:iconSize="56dp"
+                    app:iconGravity="textStart"
+                    app:iconTint="?attr/colorOnPrimaryContainer"
+                    app:backgroundTint="?attr/colorPrimaryContainer"
+                    app:cornerRadius="@dimen/btn_corner_radius"
+                    app:strokeWidth="0dp"
+                    tools:ignore="ButtonStyle" />
+
+            </LinearLayout>
+
+            <!-- ── COMPACT MODE: single toggle (icon only) ── -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_play_pause"
                 android:layout_width="match_parent"
@@ -90,28 +77,27 @@
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 app:icon="@drawable/ic_play"
-                app:iconSize="72dp"
-                app:iconGravity="top"
+                app:iconSize="80dp"
+                app:iconGravity="textStart"
                 app:iconTint="?attr/colorOnPrimaryContainer"
-                android:text="@string/play_pause"
-                android:textAppearance="?attr/textAppearanceTitleLarge"
-                android:textColor="?attr/colorOnPrimaryContainer"
                 app:backgroundTint="?attr/colorPrimaryContainer"
                 app:cornerRadius="@dimen/btn_corner_radius"
-                app:strokeWidth="0dp" />
+                app:strokeWidth="0dp"
+                tools:ignore="ButtonStyle" />
 
         </LinearLayout>
 
     </ScrollView>
 
-    <!-- Settings button LAST = renders on top of ScrollView -->
+    <!-- Settings icon — LAST child so it renders above ScrollView -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_settings"
         style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_gravity="top|end"
-        android:layout_margin="12dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="12dp"
         app:icon="@drawable/ic_settings"
         app:iconSize="24dp"
         app:iconTint="?attr/colorOnSurfaceVariant" />

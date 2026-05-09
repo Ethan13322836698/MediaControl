@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- ── Material Purple ── -->
+    <!-- ── Sky Blue (Material default) ── -->
+    <color name="skyblue_primary">#0277BD</color>
+    <color name="skyblue_on_primary">#FFFFFF</color>
+    <color name="skyblue_primary_container">#E1F5FE</color>
+    <color name="skyblue_on_primary_container">#003549</color>
+    <color name="skyblue_secondary_container">#B3E5FC</color>
+    <color name="skyblue_on_secondary_container">#01294D</color>
+    <color name="skyblue_surface">#FFFFFF</color>
+    <color name="skyblue_on_surface">#1A1C1E</color>
+    <color name="skyblue_surface_variant">#EFF3F9</color>
+    <color name="skyblue_on_surface_variant">#41474D</color>
+
+    <!-- ── Purple ── -->
     <color name="purple_primary">#6750A4</color>
     <color name="purple_on_primary">#FFFFFF</color>
     <color name="purple_primary_container">#EADDFF</color>
@@ -9,50 +21,51 @@
     <color name="purple_secondary_container">#E8DEF8</color>
     <color name="purple_on_secondary_container">#1D192B</color>
 
-    <!-- ── Material Blue ── -->
+    <!-- ── Blue ── -->
     <color name="blue_primary">#1565C0</color>
     <color name="blue_primary_container">#D0E4FF</color>
     <color name="blue_on_primary_container">#001C3B</color>
     <color name="blue_secondary_container">#C6E2FF</color>
     <color name="blue_on_secondary_container">#001D35</color>
 
-    <!-- ── Material Green ── -->
+    <!-- ── Green ── -->
     <color name="green_primary">#2E7D32</color>
     <color name="green_primary_container">#B8F0B6</color>
     <color name="green_on_primary_container">#002105</color>
     <color name="green_secondary_container">#C7EBC7</color>
     <color name="green_on_secondary_container">#002107</color>
 
-    <!-- ── Material Orange ── -->
+    <!-- ── Orange ── -->
     <color name="orange_primary">#BF360C</color>
     <color name="orange_primary_container">#FFDBCE</color>
     <color name="orange_on_primary_container">#3B0900</color>
     <color name="orange_secondary_container">#FFD8C8</color>
     <color name="orange_on_secondary_container">#380D00</color>
 
-    <!-- ── Material Red ── -->
+    <!-- ── Red ── -->
     <color name="red_primary">#C62828</color>
     <color name="red_primary_container">#FFDAD6</color>
     <color name="red_on_primary_container">#410002</color>
     <color name="red_secondary_container">#FFD2CC</color>
     <color name="red_on_secondary_container">#3B0007</color>
 
-    <!-- ── Material Teal ── -->
+    <!-- ── Teal ── -->
     <color name="teal_primary">#00695C</color>
     <color name="teal_primary_container">#9EF2E4</color>
     <color name="teal_on_primary_container">#00201B</color>
     <color name="teal_secondary_container">#A0EFE1</color>
     <color name="teal_on_secondary_container">#00201B</color>
 
-    <!-- ── Apple ── -->
+    <!-- ── Apple (light) ── -->
     <color name="apple_blue">#007AFF</color>
     <color name="apple_blue_container">#D0E8FF</color>
     <color name="apple_on_blue_container">#001B3D</color>
+    <color name="apple_gray">#8E8E93</color>
     <color name="apple_gray_container">#E5E5EA</color>
     <color name="apple_on_gray_container">#1C1C1E</color>
-    <!-- Light mode -->
     <color name="apple_surface">#F2F2F7</color>
     <color name="apple_on_surface">#1C1C1E</color>
     <color name="apple_surface_variant">#FFFFFF</color>
+    <color name="apple_on_surface_variant">#3C3C43</color>
 
 </resources>
